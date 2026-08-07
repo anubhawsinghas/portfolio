@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alex Morgan — Data Analyst</title>
+<meta name="description" content="Portfolio of Alex Morgan, Data Analyst — dashboards, forecasting models, and data storytelling.">
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============================= NAVBAR ============================= -->
+<nav class="navbar navbar-custom navbar-expand-lg">
+  <div class="container-narrow d-flex align-items-center justify-content-between">
+    <a class="brand" href="#top"><span class="cursor-dot"></span>alex.morgan()</a>
+
+    <button class="navbar-toggler border-0 text-light" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <i class="bi bi-list" style="font-size:1.6rem;color:var(--text)"></i>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+      <ul class="navbar-nav align-items-lg-center gap-lg-0 gap-2 mt-3 mt-lg-0">
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="#about">about</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="#skills">skills</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="#projects">projects</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="#certifications">certs</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="#contact">contact</a></li>
+        <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+          <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark and light mode">
+            <span class="knob"><i class="bi bi-moon-stars-fill" id="knobIcon" style="font-size:9px;color:#04140F"></i></span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================= HERO ============================= -->
+<header class="hero" id="top">
+  <div class="container-narrow">
+    <div class="row align-items-center gy-5">
+      <div class="col-lg-6">
+        <div class="hero-kicker"><span class="dot"></span>Open to data analyst roles</div>
+        <h1>Turning raw data into <span class="accent-text">decisions</span> people actually trust.</h1>
+        <p class="hero-lede">I'm Alex Morgan, a data analyst who builds the dashboards, models, and stories that help teams stop guessing. SQL and Python by day, a stubborn love of clean charts by night.</p>
+
+        <div class="hero-actions">
+          <a href="#projects" class="btn-signature"><i class="bi bi-bar-chart-line-fill"></i> View projects</a>
+          <a href="resume.pdf" download class="btn-ghost"><i class="bi bi-download"></i> Download resume</a>
+        </div>
+
+        <div class="social-rail">
+          <a href="https://github.com/" target="_blank" rel="noopener" aria-label="GitHub"><i class="bi bi-github"></i></a>
+          <a href="https://linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+          <a href="mailto:alex.morgan@email.com" aria-label="Email"><i class="bi bi-envelope-fill"></i></a>
+          <a href="https://twitter.com/" target="_blank" rel="noopener" aria-label="Twitter/X"><i class="bi bi-twitter-x"></i></a>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="terminal">
+          <div class="terminal-head">
+            <span></span><span></span><span></span>
+            <span class="path">query.sql</span>
+          </div>
+          <div class="terminal-body">
+            <div class="line"><span class="prompt">&gt;</span> <span id="typedQuery"></span><span class="blinker"></span></div>
+            <div class="mini-chart" id="miniChart">
+              <div class="bar" style="height:0%"></div>
+              <div class="bar" style="height:0%"></div>
+              <div class="bar" style="height:0%"></div>
+              <div class="bar" style="height:0%"></div>
+              <div class="bar" style="height:0%"></div>
+              <div class="bar" style="height:0%"></div>
+              <div class="bar" style="height:0%"></div>
+              <div class="bar" style="height:0%"></div>
+            </div>
+            <div class="line comment" style="margin-top:14px;">-- output: quarterly revenue by region, sorted</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================= STATS STRIP ============================= -->
+<div class="stats-strip">
+  <div class="container-narrow">
+    <div class="row">
+      <div class="col-6 col-lg-3 stat-item reveal">
+        <span class="stat-num" data-count="4">0</span>
+        <span class="stat-label">YEARS EXPERIENCE</span>
+      </div>
+      <div class="col-6 col-lg-3 stat-item reveal">
+        <span class="stat-num" data-count="32">0</span>
+        <span class="stat-label">PROJECTS SHIPPED</span>
+      </div>
+      <div class="col-6 col-lg-3 stat-item reveal">
+        <span class="stat-num" data-count="18">0</span>
+        <span class="stat-label">DASHBOARDS BUILT</span>
+      </div>
+      <div class="col-6 col-lg-3 stat-item reveal">
+        <span class="stat-num" data-count="6">0</span>
+        <span class="stat-label">CERTIFICATIONS</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= ABOUT ============================= -->
+<section id="about">
+  <div class="container-narrow">
+    <div class="eyebrow">01_ABOUT</div>
+    <h2 class="section-title">The person behind the pivot tables</h2>
+    <p class="section-sub">A little context before you get to the work.</p>
+
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p>I started out reconciling spreadsheets for a regional retailer and got hooked the first time a messy sales report turned into a chart that made a VP change a pricing decision on the spot. That's the job, as far as I'm concerned: <strong>find the signal, make it undeniable, help someone act on it.</strong></p>
+        <p>These days I work across the full pipeline — pulling and cleaning data with SQL and Python, modeling it, and packaging the result into dashboards and reports that non-technical stakeholders actually read. I care as much about <strong>how a number is presented</strong> as how it was calculated.</p>
+        <p>Outside of work I mentor early-career analysts, contribute to a couple of open-source dashboard templates, and I'm currently deep in a personal project mapping public transit efficiency in my city.</p>
+      </div>
+
+      <div class="toolchain-card reveal">
+        <div class="th">Current toolchain</div>
+        <div class="toolchain-row"><span class="k">Query & warehouse</span><span class="v">SQL · BigQuery</span></div>
+        <div class="toolchain-row"><span class="k">Analysis</span><span class="v">Python · Pandas</span></div>
+        <div class="toolchain-row"><span class="k">Visualization</span><span class="v">Tableau · Power BI</span></div>
+        <div class="toolchain-row"><span class="k">Statistics</span><span class="v">R · scikit-learn</span></div>
+        <div class="toolchain-row"><span class="k">Versioning</span><span class="v">Git · GitHub</span></div>
+        <div class="toolchain-row"><span class="k">Based in</span><span class="v">Remote · GMT+5:30</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= SKILLS ============================= -->
+<section id="skills" style="background:var(--bg-soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container-narrow">
+    <div class="eyebrow">02_SKILLS</div>
+    <h2 class="section-title">What I bring to a data team</h2>
+    <p class="section-sub">Rated the way I'd rate a model — against real usage, not a resume checklist.</p>
+
+    <div class="skills-grid">
+      <div class="reveal">
+        <div class="skill-cat-title">Languages & Querying</div>
+
+        <div class="skill-row">
+          <div class="top"><span>SQL</span><span class="pct">95%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-fill="95"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="top"><span>Python (Pandas, NumPy)</span><span class="pct">90%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-fill="90"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="top"><span>R</span><span class="pct">70%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-fill="70"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="top"><span>Excel / Google Sheets</span><span class="pct">92%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-fill="92"></div></div>
+        </div>
+      </div>
+
+      <div class="reveal">
+        <div class="skill-cat-title">Visualization & Delivery</div>
+
+        <div class="skill-row">
+          <div class="top"><span>Tableau</span><span class="pct">88%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-fill="88"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="top"><span>Power BI</span><span class="pct">85%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-fill="85"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="top"><span>Statistics & A/B Testing</span><span class="pct">80%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-fill="80"></div></div>
+        </div>
+        <div class="skill-row">
+          <div class="top"><span>Stakeholder Storytelling</span><span class="pct">93%</span></div>
+          <div class="skill-track"><div class="skill-fill" data-fill="93"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= PROJECTS ============================= -->
+<section id="projects">
+  <div class="container-narrow">
+    <div class="eyebrow">03_PROJECTS</div>
+    <h2 class="section-title">Selected work</h2>
+    <p class="section-sub">Each one led with a number, because that's what got a stakeholder to pay attention.</p>
+
+    <div class="row g-4">
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="project-card">
+          <div class="kpi-badge">+23% <span class="kpi-label">forecast accuracy</span></div>
+          <h3>Retail Demand Forecasting</h3>
+          <p>Built a time-series forecasting pipeline in Python to predict SKU-level demand across 40 stores, replacing a manual spreadsheet process and cutting overstock costs.</p>
+          <div class="tag-row">
+            <span class="tag">Python</span><span class="tag">Prophet</span><span class="tag">SQL</span>
+          </div>
+          <div class="project-links">
+            <a href="#" target="_blank" rel="noopener"><i class="bi bi-github"></i> Code</a>
+            <a href="#" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right"></i> Live demo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="project-card">
+          <div class="kpi-badge">18% <span class="kpi-label">churn reduction</span></div>
+          <h3>Customer Churn Prediction</h3>
+          <p>Trained a classification model on 2 years of subscription data to flag at-risk customers, feeding a retention dashboard used weekly by the CS team.</p>
+          <div class="tag-row">
+            <span class="tag">scikit-learn</span><span class="tag">Pandas</span><span class="tag">Tableau</span>
+          </div>
+          <div class="project-links">
+            <a href="#" target="_blank" rel="noopener"><i class="bi bi-github"></i> Code</a>
+            <a href="#" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right"></i> Live demo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="project-card">
+          <div class="kpi-badge">$340K <span class="kpi-label">ad spend reallocated</span></div>
+          <h3>Marketing Campaign ROI Dashboard</h3>
+          <p>Consolidated five ad platforms into one Power BI dashboard with blended CAC and ROAS, surfacing underperforming channels within the first review cycle.</p>
+          <div class="tag-row">
+            <span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">ETL</span>
+          </div>
+          <div class="project-links">
+            <a href="#" target="_blank" rel="noopener"><i class="bi bi-github"></i> Code</a>
+            <a href="#" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right"></i> Live demo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="project-card">
+          <div class="kpi-badge">1.2M <span class="kpi-label">records processed</span></div>
+          <h3>Public Transit Efficiency Explorer</h3>
+          <p>Personal project mapping city transit delay patterns using open data, published as an interactive Tableau story used by a local advocacy group.</p>
+          <div class="tag-row">
+            <span class="tag">SQL</span><span class="tag">Tableau</span><span class="tag">Open Data</span>
+          </div>
+          <div class="project-links">
+            <a href="#" target="_blank" rel="noopener"><i class="bi bi-github"></i> Code</a>
+            <a href="#" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right"></i> Live demo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="project-card">
+          <div class="kpi-badge">6 hrs → 4 min <span class="kpi-label">reporting time</span></div>
+          <h3>Automated Weekly Reporting Pipeline</h3>
+          <p>Replaced a manual weekly report with a scheduled Python + SQL pipeline that pulls, cleans, and emails formatted KPIs to leadership every Monday morning.</p>
+          <div class="tag-row">
+            <span class="tag">Python</span><span class="tag">Airflow</span><span class="tag">SQL</span>
+          </div>
+          <div class="project-links">
+            <a href="#" target="_blank" rel="noopener"><i class="bi bi-github"></i> Code</a>
+            <a href="#" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right"></i> Live demo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="project-card">
+          <div class="kpi-badge">94% <span class="kpi-label">survey response clarity</span></div>
+          <h3>Employee Engagement Analysis</h3>
+          <p>Analyzed 3 years of engagement survey data with R, identifying the two factors most correlated with attrition and presenting findings to HR leadership.</p>
+          <div class="tag-row">
+            <span class="tag">R</span><span class="tag">ggplot2</span><span class="tag">Statistics</span>
+          </div>
+          <div class="project-links">
+            <a href="#" target="_blank" rel="noopener"><i class="bi bi-github"></i> Code</a>
+            <a href="#" target="_blank" rel="noopener"><i class="bi bi-box-arrow-up-right"></i> Live demo</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================= CERTIFICATIONS ============================= -->
+<section id="certifications" style="background:var(--bg-soft);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container-narrow">
+    <div class="eyebrow">04_CERTIFICATIONS</div>
+    <h2 class="section-title">Credentials</h2>
+    <p class="section-sub">The formal record, for the ATS filters and the skeptics alike.</p>
+
+    <div class="row g-3">
+      <div class="col-sm-6 col-lg-3 reveal">
+        <div class="cert-card">
+          <div class="cert-icon"><i class="bi bi-patch-check-fill"></i></div>
+          <div>
+            <div class="cert-name">Google Data Analytics</div>
+            <div class="cert-issuer">Google · 2023</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3 reveal">
+        <div class="cert-card">
+          <div class="cert-icon"><i class="bi bi-patch-check-fill"></i></div>
+          <div>
+            <div class="cert-name">Tableau Desktop Specialist</div>
+            <div class="cert-issuer">Tableau · 2023</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3 reveal">
+        <div class="cert-card">
+          <div class="cert-icon"><i class="bi bi-patch-check-fill"></i></div>
+          <div>
+            <div class="cert-name">Microsoft Power BI Data Analyst</div>
+            <div class="cert-issuer">Microsoft · 2024</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-lg-3 reveal">
+        <div class="cert-card">
+          <div class="cert-icon"><i class="bi bi-patch-check-fill"></i></div>
+          <div>
+            <div class="cert-name">SQL for Data Science</div>
+            <div class="cert-issuer">UC Davis · 2022</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= CONTACT ============================= -->
+<section id="contact">
+  <div class="container-narrow">
+    <div class="eyebrow">05_CONTACT</div>
+    <h2 class="section-title">Let's talk data</h2>
+    <p class="section-sub">Open to full-time roles and interesting freelance analysis work.</p>
+
+    <div class="contact-grid">
+      <div class="contact-info-card reveal">
+        <div class="contact-line">
+          <div class="icon-box"><i class="bi bi-envelope-fill"></i></div>
+          <div><div class="lbl">EMAIL</div><div class="val">alex.morgan@email.com</div></div>
+        </div>
+        <div class="contact-line">
+          <div class="icon-box"><i class="bi bi-geo-alt-fill"></i></div>
+          <div><div class="lbl">LOCATION</div><div class="val">Remote · Open to relocation</div></div>
+        </div>
+        <div class="contact-line">
+          <div class="icon-box"><i class="bi bi-github"></i></div>
+          <div><div class="lbl">GITHUB</div><div class="val">github.com/alexmorgan</div></div>
+        </div>
+        <div class="contact-line">
+          <div class="icon-box"><i class="bi bi-linkedin"></i></div>
+          <div><div class="lbl">LINKEDIN</div><div class="val">linkedin.com/in/alexmorgan</div></div>
+        </div>
+      </div>
+
+      <form class="reveal" id="contactForm" novalidate>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label-custom" for="fName">Name</label>
+            <input type="text" class="form-control-custom" id="fName" placeholder="Your name" required>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label-custom" for="fEmail">Email</label>
+            <input type="email" class="form-control-custom" id="fEmail" placeholder="you@company.com" required>
+          </div>
+          <div class="col-12">
+            <label class="form-label-custom" for="fSubject">Subject</label>
+            <input type="text" class="form-control-custom" id="fSubject" placeholder="What's this about?" required>
+          </div>
+          <div class="col-12">
+            <label class="form-label-custom" for="fMessage">Message</label>
+            <textarea class="form-control-custom" id="fMessage" rows="5" placeholder="Tell me about the role or project..." required></textarea>
+          </div>
+          <div class="col-12">
+            <button type="submit" class="btn-signature" id="submitBtn">
+              <i class="bi bi-send-fill"></i> Send message
+            </button>
+            <div class="form-status" id="formStatus"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= FOOTER ============================= -->
+<footer>
+  <div class="container-narrow">
+    <p>// built by Alex Morgan · <span id="year"></span> · SELECT * FROM portfolio WHERE effort = 'high';</p>
+  </div>
+</footer>
+
+<button class="to-top" id="toTop" aria-label="Back to top"><i class="bi bi-arrow-up"></i></button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
