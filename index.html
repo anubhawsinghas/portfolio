@@ -258,16 +258,11 @@
   }
   .hero-photo img{
     position:relative; z-index:1;
-    width:92%; height:94%;
-    object-fit:cover; object-position:top center;
-    -webkit-mask-image:
-      linear-gradient(to bottom, black 55%, transparent 97%),
-      radial-gradient(ellipse 68% 90% at 50% 42%, black 60%, transparent 100%);
-    -webkit-mask-composite: source-in;
-    mask-image:
-      linear-gradient(to bottom, black 55%, transparent 97%),
-      radial-gradient(ellipse 68% 90% at 50% 42%, black 60%, transparent 100%);
-    mask-composite: intersect;
+    width:auto; height:96%;
+    max-width:100%;
+    object-fit:contain;
+    object-position:bottom center;
+    filter:drop-shadow(0 30px 34px rgba(0,0,0,0.5));
   }
   .hero-cta{ margin-top:30px; position:relative; z-index:2; }
   .btn{
@@ -483,6 +478,60 @@
   }
   @media (max-width: 760px){ #cursorGlow{ display:none; } }
 
+  /* scroll progress bar */
+  #scrollProgress{
+    position:fixed; top:0; left:0; height:3px; width:0%;
+    background:linear-gradient(90deg, var(--cyan), var(--amber));
+    z-index:999;
+    transition:width .08s linear;
+  }
+
+  /* back to top */
+  #backToTop{
+    position:fixed; right:22px; bottom:22px; z-index:150;
+    width:44px; height:44px; border-radius:50%;
+    background:var(--panel); border:1px solid var(--border);
+    color:var(--cyan); font-family:var(--mono); font-size:16px;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; opacity:0; pointer-events:none; transform:translateY(10px);
+    transition:opacity .25s ease, transform .25s ease, border-color .15s ease;
+  }
+  #backToTop.show{ opacity:1; pointer-events:auto; transform:translateY(0); }
+  #backToTop:hover{ border-color:var(--cyan); }
+
+  /* toast */
+  #toastHost{
+    position:fixed; left:50%; bottom:28px; transform:translateX(-50%);
+    z-index:300; display:flex; flex-direction:column; gap:8px; align-items:center;
+  }
+  .toast{
+    font-family:var(--mono); font-size:12.5px; color:var(--bg);
+    background:var(--cyan); padding:10px 16px; border-radius:8px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.35);
+    opacity:0; transform:translateY(10px);
+    transition:opacity .25s ease, transform .25s ease;
+  }
+  .toast.show{ opacity:1; transform:translateY(0); }
+
+  /* copy affordance */
+  .copyable{ cursor:pointer; position:relative; }
+  .copyable:hover{ color:var(--amber) !important; }
+  .cert-id.copyable::after{ content:'· click to copy'; margin-left:6px; opacity:0; font-size:9.5px; transition:opacity .15s; }
+  .cert-id.copyable:hover::after{ opacity:.7; }
+
+  /* project filter chips */
+  .filter-bar{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; }
+  .filter-chip{
+    font-family:var(--mono); font-size:11.5px; color:var(--text-dim);
+    border:1px solid var(--border); background:var(--panel-2);
+    padding:7px 13px; border-radius:20px; cursor:pointer;
+    transition:border-color .15s, color .15s, background .15s;
+  }
+  .filter-chip:hover{ color:var(--text); border-color:var(--cyan); }
+  .filter-chip.active{ background:var(--cyan); color:#04211c; border-color:var(--cyan); font-weight:700; }
+  .project-card{ transition:opacity .35s ease, transform .35s ease; }
+  .project-card.hidden{ display:none; }
+
   @media (prefers-reduced-motion: reduce){
     *{ animation:none !important; transition:none !important; }
     .reveal, .stagger-child{ opacity:1 !important; transform:none !important; }
@@ -491,9 +540,13 @@
 </head>
 <body>
 
+<div id="scrollProgress"></div>
 <div id="cursorGlow"></div>
+<div id="toastHost"></div>
+<button id="backToTop" aria-label="Back to top">↑</button>
 
 <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">☰</button>
+
 
 <div class="app">
   <nav class="sidebar" id="sidebar">
@@ -642,7 +695,7 @@
           <div class="commit">
             <span class="commit-dot"></span>
             <div class="commit-head">
-              <span class="commit-hash">#a92f1c</span>
+              <span class="commit-hash copyable" title="Click to copy">#a92f1c</span>
               <span class="commit-role">Senior Data Analyst</span>
               <span class="commit-org">@ Northwind Analytics</span>
               <span class="commit-date">Mar 2023 — Present</span>
@@ -658,7 +711,7 @@
           <div class="commit">
             <span class="commit-dot"></span>
             <div class="commit-head">
-              <span class="commit-hash">#7e10b4</span>
+              <span class="commit-hash copyable" title="Click to copy">#7e10b4</span>
               <span class="commit-role">Data Analyst</span>
               <span class="commit-org">@ Solstice Retail Co.</span>
               <span class="commit-date">Jul 2021 — Feb 2023</span>
@@ -674,7 +727,7 @@
           <div class="commit">
             <span class="commit-dot"></span>
             <div class="commit-head">
-              <span class="commit-hash">#2c88af</span>
+              <span class="commit-hash copyable" title="Click to copy">#2c88af</span>
               <span class="commit-role">Data Analytics Intern</span>
               <span class="commit-org">@ Fernbridge Labs</span>
               <span class="commit-date">Jan 2021 — Jun 2021</span>
@@ -693,8 +746,9 @@
     <section class="section" id="projects">
       <div class="eyebrow">projects/</div>
       <h2 class="sec-title reveal">04_projects<span class="path">/ things I've shipped</span></h2>
-      <div class="project-grid">
-        <div class="win reveal project-card">
+      <div class="filter-bar reveal" id="projectFilters"></div>
+      <div class="project-grid" id="projectGrid">
+        <div class="win reveal project-card" data-tags="Power BI,SQL,DAX">
           <div class="project-thumb">
             <div class="bars">
               <span style="height:35%;background:var(--cyan)"></span>
@@ -712,7 +766,7 @@
           </div>
         </div>
 
-        <div class="win reveal project-card">
+        <div class="win reveal project-card" data-tags="Python,scikit-learn,Pandas">
           <div class="project-thumb">
             <div class="bars">
               <span style="height:50%;background:var(--pink)"></span>
@@ -730,7 +784,7 @@
           </div>
         </div>
 
-        <div class="win reveal project-card">
+        <div class="win reveal project-card" data-tags="Airflow,SQL,Snowflake">
           <div class="project-thumb">
             <div class="bars">
               <span style="height:65%;background:var(--amber)"></span>
@@ -748,7 +802,7 @@
           </div>
         </div>
 
-        <div class="win reveal project-card">
+        <div class="win reveal project-card" data-tags="R,Python,Statistics">
           <div class="project-thumb">
             <div class="bars">
               <span style="height:45%;background:var(--cyan)"></span>
@@ -767,6 +821,7 @@
         </div>
       </div>
     </section>
+
 
     <!-- EDUCATION -->
     <section class="section" id="education">
@@ -806,7 +861,7 @@
           <div>
             <div class="cert-name">Google Data Analytics Professional Certificate</div>
             <div class="cert-issuer">Google · 2022</div>
-            <div class="cert-id">ID: GDA-2022-88213</div>
+            <div class="cert-id copyable" title="Click to copy">ID: GDA-2022-88213</div>
           </div>
         </div>
         <div class="win reveal cert-card">
@@ -814,7 +869,7 @@
           <div>
             <div class="cert-name">Microsoft Certified: Power BI Data Analyst Associate</div>
             <div class="cert-issuer">Microsoft (PL-300) · 2023</div>
-            <div class="cert-id">ID: MS-PL300-40217</div>
+            <div class="cert-id copyable" title="Click to copy">ID: MS-PL300-40217</div>
           </div>
         </div>
         <div class="win reveal cert-card">
@@ -822,7 +877,7 @@
           <div>
             <div class="cert-name">AWS Certified Cloud Practitioner</div>
             <div class="cert-issuer">Amazon Web Services · 2023</div>
-            <div class="cert-id">ID: AWS-CCP-90341</div>
+            <div class="cert-id copyable" title="Click to copy">ID: AWS-CCP-90341</div>
           </div>
         </div>
         <div class="win reveal cert-card">
@@ -830,7 +885,7 @@
           <div>
             <div class="cert-name">SQL for Data Science</div>
             <div class="cert-issuer">Coursera (UC Davis) · 2021</div>
-            <div class="cert-id">ID: CRS-SQL-51820</div>
+            <div class="cert-id copyable" title="Click to copy">ID: CRS-SQL-51820</div>
           </div>
         </div>
       </div>
@@ -842,7 +897,7 @@
       <h2 class="sec-title reveal">07_contact<span class="path">/ let's talk data</span></h2>
       <div class="win reveal contact-win">
         <div class="contact-line"><span class="p">➜</span> echo "reach me at:"</div>
-        <div class="contact-line" style="color:var(--text); font-size:16px;">anubhaw.singh.data@email.com</div>
+        <div class="contact-line copyable" id="emailLine" style="color:var(--text); font-size:16px;" title="Click to copy">anubhaw.singh.data@email.com</div>
         <div class="contact-links">
           <a href="mailto:anubhaw.singh.data@email.com">✉ email</a>
           <a href="#">in/ linkedin</a>
@@ -1058,6 +1113,104 @@
       });
       heroSection.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
     }
+  })();
+
+  // ---------- scroll progress bar ----------
+  const scrollProgress = document.getElementById('scrollProgress');
+  function updateScrollProgress() {
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
+    if (scrollProgress) scrollProgress.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateScrollProgress, { passive: true });
+  updateScrollProgress();
+
+  // ---------- back to top ----------
+  const backToTop = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > window.innerHeight * 0.6) backToTop.classList.add('show');
+    else backToTop.classList.remove('show');
+  }, { passive: true });
+  backToTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // ---------- toast notifications ----------
+  const toastHost = document.getElementById('toastHost');
+  function showToast(msg) {
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.textContent = msg;
+    toastHost.appendChild(t);
+    requestAnimationFrame(() => t.classList.add('show'));
+    setTimeout(() => {
+      t.classList.remove('show');
+      setTimeout(() => t.remove(), 300);
+    }, 1800);
+  }
+
+  // ---------- click-to-copy (commit hashes, cert IDs, email) ----------
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+    } else {
+      fallbackCopy(text);
+    }
+  }
+  function fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+  document.querySelectorAll('.commit-hash.copyable').forEach(el => {
+    el.addEventListener('click', () => {
+      copyText(el.textContent.trim());
+      showToast('Copied ' + el.textContent.trim());
+    });
+  });
+  document.querySelectorAll('.cert-id.copyable').forEach(el => {
+    el.addEventListener('click', () => {
+      const id = el.textContent.replace('· click to copy', '').trim();
+      copyText(id);
+      showToast('Copied credential ID');
+    });
+  });
+  const emailLine = document.getElementById('emailLine');
+  if (emailLine) {
+    emailLine.addEventListener('click', () => {
+      copyText(emailLine.textContent.trim());
+      showToast('Email copied to clipboard');
+    });
+  }
+
+  // ---------- project tag filter ----------
+  (function projectFilter() {
+    const grid = document.getElementById('projectGrid');
+    const filterBar = document.getElementById('projectFilters');
+    if (!grid || !filterBar) return;
+    const cards = Array.from(grid.querySelectorAll('.project-card'));
+    const tagSet = new Set();
+    cards.forEach(c => (c.dataset.tags || '').split(',').forEach(t => t && tagSet.add(t)));
+
+    function makeChip(label, value) {
+      const chip = document.createElement('div');
+      chip.className = 'filter-chip' + (value === 'all' ? ' active' : '');
+      chip.textContent = label;
+      chip.dataset.value = value;
+      chip.addEventListener('click', () => {
+        filterBar.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        cards.forEach(card => {
+          const tags = (card.dataset.tags || '').split(',');
+          const show = value === 'all' || tags.includes(value);
+          card.classList.toggle('hidden', !show);
+        });
+      });
+      return chip;
+    }
+
+    filterBar.appendChild(makeChip('All', 'all'));
+    Array.from(tagSet).sort().forEach(tag => filterBar.appendChild(makeChip(tag, tag)));
   })();
 </script>
 
